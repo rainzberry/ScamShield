@@ -162,15 +162,14 @@ Four different classification algorithms are currently being compared:
 The first baseline experiment produced the following results:
 
 ```text
-Model	Accuracy	Precision	Recall	F1 Score
-MLP Neural Network	99.12%	98.95%	99.26%	99.11%
-Logistic Regression	98.59%	98.09%	99.06%	98.57%
-Random Forest	98.20%	98.66%	97.65%	98.15%
-Multinomial Naive Bayes	96.76%	98.70%	94.65%	96.63%
-Current Best Baseline
+       Model             Accuracy  Precision  Recall	 F1 Score
+MLP Neural Network	      99.12%	  98.95%	   99.26%	   99.11%
+Logistic Regression	      98.59%	  98.09%	   99.06%	   98.57%
+Random Forest	98.20%	    98.20%	  98.66%	   97.65%    98.15%
+Multinomial Naive Bayes	  96.76%	  98.70%	   94.65%	   96.63%
 ```
 
-The MLP Neural Network currently provides the best baseline performance with an F1 score of 99.11%. This is a preliminary result. Hyperparameter tuning and additional evaluation will be performed before selecting the final production model.
+Current Best Baseline: The MLP Neural Network currently provides the best baseline performance with an F1 score of 99.11%. This is a preliminary result. Hyperparameter tuning and additional evaluation will be performed before selecting the final production model.
 
 ## Evaluation Metrics
 
