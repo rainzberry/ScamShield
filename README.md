@@ -45,7 +45,7 @@ their performance to identify the most effective model.
 
 ## System Overview
 
-`
+
                     ScamShield AI
                          |
           +--------------+--------------+
