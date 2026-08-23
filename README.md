@@ -45,7 +45,6 @@ their performance to identify the most effective model.
 
 ## System Overview
 
-
                     ScamShield AI
                          |
           +--------------+--------------+
@@ -78,6 +77,7 @@ their performance to identify the most effective model.
 
 The current ML pipeline follows these stages:
 
+```text
 Raw Datasets
       ↓
 Data Cleaning
@@ -95,6 +95,8 @@ Performance Evaluation
 Model Comparison
       ↓
 Best Model Selection
+
+```
 
 ## Datasets
 
@@ -117,19 +119,19 @@ The original datasets are not stored in this repository because they are externa
 
 After cleaning and preprocessing:
 
-Total emails: 76,800
-Normal emails: 39,143
-Phishing/Spam emails: 37,657
-Label Distribution
-Label	Meaning	Count	Percentage
-0	Normal	39,143	50.97%
-1	Phishing	37,657	49.03%
+- Total emails: 76,800
+- Normal emails: 39,143
+- Phishing/Spam emails: 37,657
+- Label Distribution
+- Label	Meaning	Count	Percentage
+- 0	Normal	39,143	50.97%
+- 1	Phishing	37,657	49.03%
 
 The dataset was split using stratified sampling:
 
-Dataset	Samples
-Training	61,440
-Testing	15,360
+- Dataset	Samples
+- Training	61,440
+- Testing	15,360
 
 This maintains approximately the same class distribution in both sets.
 
@@ -139,13 +141,12 @@ Email text is converted into numerical features using TF-IDF (Term Frequency-Inv
 
 The current configuration produces:
 
-Vocabulary size: 50,000
-Training samples: 61,440
-Testing samples: 15,360
-Features: 50,000
+- Vocabulary size: 50,000
+- Training samples: 61,440
+- Testing samples: 15,360
+- Features: 50,000
 
-TF-IDF allows the machine learning algorithms to represent important words
-and terms in the email as numerical feature vectors.
+TF-IDF allows the machine learning algorithms to represent important words and terms in the email as numerical feature vectors.
 
 ## Machine Learning Models
 
@@ -160,12 +161,14 @@ Four different classification algorithms are currently being compared:
 
 The first baseline experiment produced the following results:
 
+```text
 Model	Accuracy	Precision	Recall	F1 Score
 MLP Neural Network	99.12%	98.95%	99.26%	99.11%
 Logistic Regression	98.59%	98.09%	99.06%	98.57%
 Random Forest	98.20%	98.66%	97.65%	98.15%
 Multinomial Naive Bayes	96.76%	98.70%	94.65%	96.63%
 Current Best Baseline
+```
 
 The MLP Neural Network currently provides the best baseline performance with an F1 score of 99.11%. This is a preliminary result. Hyperparameter tuning and additional evaluation will be performed before selecting the final production model.
 
@@ -173,16 +176,17 @@ The MLP Neural Network currently provides the best baseline performance with an 
 
 The models are evaluated using:
 
-Accuracy
-Precision
-Recall
-F1 Score
-Confusion Matrix
+- Accuracy
+- Precision
+- Recall
+- F1 Score
+- Confusion Matrix
 
 For phishing detection, Recall is particularly important because a false negative represents a phishing email incorrectly classified as normal.
 
 ## Project Structure
 
+```text
 ScamShield/
 │
 ├── README.md
@@ -204,75 +208,85 @@ ScamShield/
     │   └── model_comparison.csv
     │
     └── requirements.txt
+```
 
 Large datasets, generated TF-IDF features, trained model files, virtual environments, and other generated files are excluded from version control.
 
-Technologies Used
-Machine Learning
-Python
-Pandas
-NumPy
-Scikit-learn
-Joblib
-TF-IDF
-Logistic Regression
-Multinomial Naive Bayes
-Random Forest
-MLP Neural Network
-Frontend
-HTML
-CSS
-JavaScript
-React
-Development Tools
-Visual Studio Code
-Git
-GitHub
-GitHub Desktop
-Running the ML Pipeline
+## Technologies Used: 
+
+- Machine Learning
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- Joblib
+- TF-IDF
+- Logistic Regression
+- Multinomial Naive Bayes
+- Random Forest
+- MLP Neural Network
+- Frontend
+- HTML
+- CSS
+- JavaScript
+- React
+- Development Tools
+- Visual Studio Code
+- Git
+- GitHub
+- GitHub Desktop
+
+## Running the ML Pipeline
 
 Clone the repository and navigate to the ML directory:
 
+```text
 cd scamshield-ML
+```
 
 Create and activate a virtual environment:
 
+```text
 python -m venv .venv
+```
 
 Activate it on Windows:
 
+```text
 .venv\Scripts\activate
-
+```
 Install the required dependencies:
-
+```text
 pip install -r requirements.txt
+```
 
 The ML pipeline can then be executed in the following order:
 
+```text
 python src/clean_dataset.py
 python src/validate_dataset.py
 python src/split_dataset.py
 python src/feature_extraction.py
 python src/model_training.py
+```
 
-The original datasets must be obtained separately and placed in the
-appropriate local dataset directory before running the pipeline.
+The original datasets must be obtained separately and placed in the appropriate local dataset directory before running the pipeline.
 
 ## Future Development
 
-ScamShield AI is planned to evolve into a complete email security platform
-with:
+ScamShield AI is planned to evolve into a complete email security platform with:
 
-Automated email analysis
-Real-time phishing detection
-Backend prediction API
-Frontend integration
-Explainable predictions
-URL and malicious-link analysis
-Additional scam detection capabilities
-Model optimization and tuning
-Robustness testing across different datasets
-Production-ready deployment
-Disclaimer
+- Automated email analysis
+- Real-time phishing detection
+- Backend prediction API
+- Frontend integration
+- Explainable predictions
+- URL and malicious-link analysis
+- Additional scam detection capabilities
+- Model optimization and tuning
+- Robustness testing across different datasets
+- Production-ready deployment
+
+## Disclaimer
 
 ScamShield AI is an academic software engineering and machine learning project intended for research and educational purposes. Model predictions should not be treated as a guaranteed determination of whether an email is malicious or legitimate.
