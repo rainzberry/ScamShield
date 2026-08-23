@@ -73,7 +73,8 @@ their performance to identify the most effective model.
           +------------------------------+
                          |
                   Final Prediction
-Machine Learning Pipeline
+
+## Machine Learning Pipeline
 
 The current ML pipeline follows these stages:
 
@@ -94,29 +95,25 @@ Performance Evaluation
 Model Comparison
       ↓
 Best Model Selection
-Datasets
 
-The project uses multiple publicly available email datasets containing
-normal, spam, and phishing-related email samples.
+## Datasets
+
+The project uses multiple publicly available email datasets containing normal, spam, and phishing-related email samples.
+Kaggle Dataset: https://www.kaggle.com/datasets/naserabdullahalam/phishing-email-dataset
 
 Current datasets include:
 
-CEAS 2008
-Enron
-Ling
-Nazario
-Nigerian Fraud
-SpamAssassin
-Phishing Email Dataset
+- CEAS 2008
+- Enron
+- Ling
+- Nazario
+- Nigerian Fraud
+- SpamAssassin
+- Phishing Email Dataset
 
-The original datasets are not stored in this repository because they are
-external datasets and may have individual licensing and redistribution
-requirements.
+The original datasets are not stored in this repository because they are external datasets and may have individual licensing and redistribution requirements.The dataset preprocessing pipeline used to create the final training data is included in the project source code.
 
-The dataset preprocessing pipeline used to create the final training data
-is included in the project source code.
-
-Dataset Statistics
+## Dataset Statistics
 
 After cleaning and preprocessing:
 
@@ -136,10 +133,9 @@ Testing	15,360
 
 This maintains approximately the same class distribution in both sets.
 
-Feature Extraction
+## Feature Extraction
 
-Email text is converted into numerical features using TF-IDF
-(Term Frequency-Inverse Document Frequency).
+Email text is converted into numerical features using TF-IDF (Term Frequency-Inverse Document Frequency).
 
 The current configuration produces:
 
@@ -151,29 +147,16 @@ Features: 50,000
 TF-IDF allows the machine learning algorithms to represent important words
 and terms in the email as numerical feature vectors.
 
-Machine Learning Models
+## Machine Learning Models
 
 Four different classification algorithms are currently being compared:
 
-1. Logistic Regression
+1. Logistic Regression: A linear classification algorithm used as a strong baseline forhigh-dimensional text classification.
+2. Multinomial Naive Bayes: A probabilistic classifier commonly used for text classification problems.
+3. Random Forest: An ensemble learning algorithm consisting of multiple decision trees.
+4. MLP Neural Network: A Multi-Layer Perceptron neural network capable of learning nonlinear relationships in the extracted feature space.
 
-A linear classification algorithm used as a strong baseline for
-high-dimensional text classification.
-
-2. Multinomial Naive Bayes
-
-A probabilistic classifier commonly used for text classification problems.
-
-3. Random Forest
-
-An ensemble learning algorithm consisting of multiple decision trees.
-
-4. MLP Neural Network
-
-A Multi-Layer Perceptron neural network capable of learning nonlinear
-relationships in the extracted feature space.
-
-Baseline Results
+## Baseline Results
 
 The first baseline experiment produced the following results:
 
@@ -184,13 +167,9 @@ Random Forest	98.20%	98.66%	97.65%	98.15%
 Multinomial Naive Bayes	96.76%	98.70%	94.65%	96.63%
 Current Best Baseline
 
-The MLP Neural Network currently provides the best baseline
-performance with an F1 score of 99.11%.
+The MLP Neural Network currently provides the best baseline performance with an F1 score of 99.11%. This is a preliminary result. Hyperparameter tuning and additional evaluation will be performed before selecting the final production model.
 
-This is a preliminary result. Hyperparameter tuning and additional
-evaluation will be performed before selecting the final production model.
-
-Evaluation Metrics
+## Evaluation Metrics
 
 The models are evaluated using:
 
@@ -200,11 +179,10 @@ Recall
 F1 Score
 Confusion Matrix
 
-For phishing detection, Recall is particularly important because a
-false negative represents a phishing email incorrectly classified as
-normal.
+For phishing detection, Recall is particularly important because a false negative represents a phishing email incorrectly classified as normal.
 
-Project Structure
+## Project Structure
+
 ScamShield/
 │
 ├── README.md
@@ -227,8 +205,7 @@ ScamShield/
     │
     └── requirements.txt
 
-Large datasets, generated TF-IDF features, trained model files, virtual
-environments, and other generated files are excluded from version control.
+Large datasets, generated TF-IDF features, trained model files, virtual environments, and other generated files are excluded from version control.
 
 Technologies Used
 Machine Learning
@@ -281,7 +258,7 @@ python src/model_training.py
 The original datasets must be obtained separately and placed in the
 appropriate local dataset directory before running the pipeline.
 
-Future Development
+## Future Development
 
 ScamShield AI is planned to evolve into a complete email security platform
 with:
@@ -298,8 +275,4 @@ Robustness testing across different datasets
 Production-ready deployment
 Disclaimer
 
-ScamShield AI is an academic software engineering and machine learning
-project intended for research and educational purposes.
-
-Model predictions should not be treated as a guaranteed determination of
-whether an email is malicious or legitimate.
+ScamShield AI is an academic software engineering and machine learning project intended for research and educational purposes. Model predictions should not be treated as a guaranteed determination of whether an email is malicious or legitimate.
