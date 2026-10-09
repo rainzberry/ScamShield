@@ -1,291 +1,464 @@
 # ScamShield AI
 
-ScamShield AI is an AI-powered email security platform designed to detect
-phishing and spam emails using Natural Language Processing (NLP) and
-Machine Learning.
+### Intelligent Multi-Level Phishing, Spam & Malicious Content Detection Platform Using Explainable Machine Learning
 
-The project combines a user-friendly frontend with an ML-based email
-classification pipeline. The ML component processes email text, extracts
-TF-IDF features, trains multiple classification algorithms, and compares
-their performance to identify the most effective model.
+ScamShield AI is a multi-modal security platform designed to identify potentially malicious digital content by analysing **emails, URLs, and QR codes**. It combines machine learning, URL analysis, QR-code decoding, risk assessment, and explainable detection results through a unified dashboard.
 
----
+The project aims to help users recognise suspicious messages and links before interacting with them, while providing understandable reasons behind a threat assessment.
 
-## Project Status
-
-🚧 **Currently under development**
-
-### Completed
-
-- Collected and analyzed multiple phishing/spam email datasets
-- Combined datasets into a unified dataset
-- Cleaned and standardized email text
-- Validated the cleaned dataset
-- Performed stratified train-test splitting
-- Extracted TF-IDF features
-- Trained four machine learning algorithms
-- Compared model performance
-- Saved baseline evaluation results
-
-### Upcoming
-
-- Hyperparameter tuning
-- Cross-validation
-- Detailed model evaluation
-- Source-wise robustness analysis
-- Explainable AI / feature analysis
-- Final model selection
-- Email prediction pipeline
-- Backend API integration
-- Frontend-backend integration
-- Real-time email analysis
-- Additional scam detection capabilities
+> **Project type:** Software Engineering & Machine Learning
+> **Status:** Under active development
+> **Primary goal:** Explainable, multi-level scam and phishing detection
 
 ---
 
-## System Overview
+## Table of Contents
 
-                    ScamShield AI
-                         |
-          +--------------+--------------+
-          |                             |
-       Frontend                    ML Pipeline
-          |                             |
-     User Input                   Email Dataset
-          |                             |
-          |                       Data Cleaning
-          |                             |
-          |                       Data Validation
-          |                             |
-          |                     Train/Test Split
-          |                             |
-          |                         TF-IDF
-          |                             |
-          |              +--------------+--------------+
-          |              |       |       |             |
-          |             LR      MNB      RF            MLP
-          |              |       |       |             |
-          |              +-------+-------+-------------+
-          |                              |
-          |                       Model Comparison
-          |                              |
-          +------------------------------+
-                         |
-                  Final Prediction
+* [Overview](#overview)
+* [Key Features](#key-features)
+* [System Architecture](#system-architecture)
+* [Detection Pipelines](#detection-pipelines)
+* [Technology Stack](#technology-stack)
+* [Project Structure](#project-structure)
+* [Installation and Setup](#installation-and-setup)
+* [Testing and Validation](#testing-and-validation)
+* [Security Considerations](#security-considerations)
+* [Limitations](#limitations)
+* [Future Enhancements](#future-enhancements)
+* [Disclaimer](#disclaimer)
 
-## Machine Learning Pipeline
+---
 
-The current ML pipeline follows these stages:
+## Overview
+
+Digital scams increasingly use deceptive emails, malicious URLs, impersonation, and QR codes to trick users into revealing sensitive information or visiting unsafe websites.
+
+ScamShield AI approaches this problem through three analysis modules:
+
+1. **Email Analysis** — examines email text for phishing, spam, scam-related language, and other suspicious indicators.
+2. **URL Analysis** — evaluates URL characteristics and suspicious patterns to estimate potential risk.
+3. **QR Code Analysis** — decodes a QR code from an uploaded image and analyses the extracted content, particularly URLs.
+
+The analysis results are presented through a dashboard designed to make suspicious indicators and risk assessments easier to understand.
+
+ScamShield AI is intended as a decision-support tool. It does not guarantee that every malicious item will be detected.
+
+---
+
+## Key Features
+
+### 1. Email Threat Detection
+
+* Analyse user-provided email content.
+* Use natural language processing and machine learning to classify suspicious text.
+* Identify indicators associated with phishing, spam, scams, and malicious content.
+* Present a risk assessment and supporting evidence where available.
+
+### 2. URL Threat Analysis
+
+* Accept a URL for inspection.
+* Extract lexical and structural URL characteristics.
+* Evaluate suspicious patterns using a machine-learning model and applicable detection rules.
+* Present a risk score and relevant warning indicators.
+
+### 3. QR Code and Quishing Detection
+
+Quishing is phishing conducted through QR codes.
+
+* Accept a QR-code image as input.
+* Use OpenCV-based QR detection and decoding.
+* Extract the embedded text or URL.
+* Pass extracted URLs to the URL-analysis module when applicable.
+* Present the resulting assessment to the user.
+
+**Important:** Decoding a QR code does not establish that its destination is safe. The decoded content must be inspected separately.
+
+### 4. Explainable Risk Assessment
+
+ScamShield AI is designed to make detection results more understandable by combining model predictions with identifiable risk indicators.
+
+Depending on the analysis module, results may include:
+
+* Classification or threat category.
+* Risk score and severity level.
+* Suspicious patterns or rule matches.
+* Evidence supporting the assessment.
+
+### 5. Security Dashboard
+
+The frontend provides a central interface for interacting with the detection modules and viewing analysis results.
+
+The intended interface uses a dark cybersecurity-inspired design, with high-visibility warnings and clear risk indicators.
+
+### 6. Modular Architecture
+
+The project separates the frontend, backend services, and machine-learning functionality to make the system easier to test, maintain, and extend.
+
+---
+
+## System Architecture
 
 ```text
-Raw Datasets
-      ↓
-Data Cleaning
-      ↓
-Dataset Validation
-      ↓
-Train-Test Split
-      ↓
+                     USER
+                      |
+                      v
+             SCAMSHIELD AI FRONTEND
+                      |
+                      v
+                BACKEND API
+                      |
+           +----------+----------+
+           |          |          |
+           v          v          v
+       EMAIL         URL         QR
+      ANALYSIS     ANALYSIS    ANALYSIS
+           |          |          |
+           v          v          v
+       Text ML     URL Model   OpenCV QR
+       + Rules     + Rules     Decoding
+           |          |          |
+           +----------+----------+
+                      |
+                      v
+             RISK ASSESSMENT
+                      |
+                      v
+          EXPLANATION AND RESULTS
+                      |
+                      v
+                DASHBOARD
+```
+
+### High-level workflow
+
+1. The user submits email text, a URL, or a QR-code image.
+2. The frontend sends the input to the appropriate backend endpoint.
+3. The backend validates and routes the input to the relevant detection module.
+4. The module performs machine-learning inference, rule-based checks, or QR decoding as appropriate.
+5. The system assembles the available classification, risk assessment, and evidence.
+6. The frontend displays the results.
+
+The exact processing steps depend on the selected input type.
+
+---
+
+## Detection Pipelines
+
+### A. Email Analysis Pipeline
+
+```text
+Email Text
+    |
+    v
+Input Validation
+    |
+    v
+Text Preprocessing
+    |
+    v
 TF-IDF Feature Extraction
-      ↓
-Model Training
-      ↓
-Performance Evaluation
-      ↓
-Model Comparison
-      ↓
-Best Model Selection
-
+    |
+    v
+Machine-Learning Classification
+    |
+    v
+Rule-Based Indicator Analysis
+    |
+    v
+Risk Assessment
+    |
+    v
+Classification + Evidence
 ```
 
-## Datasets
+The email machine-learning workflow uses TF-IDF to represent text numerically and Logistic Regression for text classification. The broader training experiments have also compared Logistic Regression, Multinomial Naive Bayes, Random Forest, and a Multi-Layer Perceptron (MLP).
 
-The project uses multiple publicly available email datasets containing normal, spam, and phishing-related email samples.
-Kaggle Dataset: https://www.kaggle.com/datasets/naserabdullahalam/phishing-email-dataset
+The current prediction pipeline and the models used for offline experiments should be distinguished: a model being evaluated during training is not necessarily the model used for live predictions.
 
-Current datasets include:
-
-- CEAS 2008
-- Enron
-- Ling
-- Nazario
-- Nigerian Fraud
-- SpamAssassin
-- Phishing Email Dataset
-
-The original datasets are not stored in this repository because they are external datasets and may have individual licensing and redistribution requirements.The dataset preprocessing pipeline used to create the final training data is included in the project source code.
-
-## Dataset Statistics
-
-After cleaning and preprocessing:
-
-- Total emails: 76,800
-- Normal emails: 39,143
-- Phishing/Spam emails: 37,657
-- Label Distribution
-- Label	Meaning	Count	Percentage
-- 0	Normal	39,143	50.97%
-- 1	Phishing	37,657	49.03%
-
-The dataset was split using stratified sampling:
-
-- Dataset	Samples
-- Training	61,440
-- Testing	15,360
-
-This maintains approximately the same class distribution in both sets.
-
-## Feature Extraction
-
-Email text is converted into numerical features using TF-IDF (Term Frequency-Inverse Document Frequency).
-
-The current configuration produces:
-
-- Vocabulary size: 50,000
-- Training samples: 61,440
-- Testing samples: 15,360
-- Features: 50,000
-
-TF-IDF allows the machine learning algorithms to represent important words and terms in the email as numerical feature vectors.
-
-## Machine Learning Models
-
-Four different classification algorithms are currently being compared:
-
-1. Logistic Regression: A linear classification algorithm used as a strong baseline forhigh-dimensional text classification.
-2. Multinomial Naive Bayes: A probabilistic classifier commonly used for text classification problems.
-3. Random Forest: An ensemble learning algorithm consisting of multiple decision trees.
-4. MLP Neural Network: A Multi-Layer Perceptron neural network capable of learning nonlinear relationships in the extracted feature space.
-
-## Baseline Results
-
-The first baseline experiment produced the following results:
+### B. URL Analysis Pipeline
 
 ```text
-       Model             Accuracy  Precision  Recall	 F1 Score
-MLP Neural Network	      99.12%	  98.95%	   99.26%	   99.11%
-Logistic Regression	      98.59%	  98.09%	   99.06%	   98.57%
-Random Forest	98.20%	    98.20%	  98.66%	   97.65%    98.15%
-Multinomial Naive Bayes	  96.76%	  98.70%	   94.65%	   96.63%
+Submitted URL
+     |
+     v
+URL Validation and Parsing
+     |
+     v
+Lexical Feature Extraction
+     |
+     v
+URL Classification Model
+     |
+     v
+Rule-Based Risk Indicators
+     |
+     v
+Risk Assessment
+     |
+     v
+Result and Supporting Evidence
 ```
 
-Current Best Baseline: The MLP Neural Network currently provides the best baseline performance with an F1 score of 99.11%. This is a preliminary result. Hyperparameter tuning and additional evaluation will be performed before selecting the final production model.
+The URL module is designed to evaluate characteristics of a URL rather than relying solely on its appearance or domain name.
 
-## Evaluation Metrics
+The machine-learning component uses lexical URL features with a Random Forest classifier. Relevant detection rules can contribute additional evidence to the final risk assessment.
 
-The models are evaluated using:
+### C. QR Code Analysis Pipeline
 
-- Accuracy
-- Precision
-- Recall
-- F1 Score
-- Confusion Matrix
+```text
+Uploaded QR Image
+        |
+        v
+Image Validation
+        |
+        v
+OpenCV QR Detection
+        |
+        v
+QR Content Decoding
+        |
+        v
+Extracted Text or URL
+        |
+        v
+URL Analysis (when applicable)
+        |
+        v
+Risk Assessment
+        |
+        v
+Displayed Result
+```
 
-For phishing detection, Recall is particularly important because a false negative represents a phishing email incorrectly classified as normal.
+OpenCV is used for QR-code detection and decoding. It is not, by itself, a phishing-classification model.
+
+When a QR code contains a URL, the extracted URL can be analysed by the URL detection pipeline. Other QR payloads require appropriate handling based on their content type.
+
+---
+
+## Technology Stack
+
+| Component            | Technologies                                        |
+| -------------------- | --------------------------------------------------- |
+| Frontend             | React, JavaScript, HTML, CSS                        |
+| Backend              | Python, Flask                                       |
+| Machine Learning     | scikit-learn                                        |
+| Text Processing      | TF-IDF                                              |
+| Email Classification | Logistic Regression and other evaluated classifiers |
+| URL Classification   | Random Forest and lexical features                  |
+| QR Processing        | OpenCV                                              |
+| Data Processing      | NumPy, pandas                                       |
+| Model Persistence    | Joblib                                              |
+| Development          | Visual Studio Code, Git, GitHub                     |
+
+---
 
 ## Project Structure
 
 ```text
 ScamShield/
-│
-├── README.md
-├── .gitignore
-│
-├── scamshield-ai/
-│   └── Frontend files
-│
-└── scamshield-ML/
-    │
-    ├── src/
-    │   ├── clean_dataset.py
-    │   ├── validate_dataset.py
-    │   ├── split_dataset.py
-    │   ├── feature_extraction.py
-    │   └── model_training.py
-    │
-    ├── results/
-    │   └── model_comparison.csv
-    │
-    └── requirements.txt
+|
+|-- README.md
+|-- .gitignore
+|
+|-- scamshield-ai/
+|   |-- Frontend application
+|   |-- React components
+|   |-- UI and styling
+|   `-- Frontend configuration
+|
+|-- scamshield-backend/
+|   |-- Flask application
+|   |-- API endpoints
+|   |-- Request validation
+|   `-- Backend configuration
+|
+`-- scamshield-ML/
+    |-- ml/
+    |   |-- Email detection
+    |   |-- URL detection
+    |   |-- QR-related processing
+    |   |-- Risk assessment
+    |   `-- Tests
+    |
+    |-- Dataset and model resources
+    |-- Evaluation outputs
+    `-- Python dependencies
 ```
 
-Large datasets, generated TF-IDF features, trained model files, virtual environments, and other generated files are excluded from version control.
+*This is a logical overview; individual filenames and subfolders may vary as the implementation evolves.*
 
-## Technologies Used: 
+---
 
-- Machine Learning
-- Python
-- Pandas
-- NumPy
-- Scikit-learn
-- Joblib
-- TF-IDF
-- Logistic Regression
-- Multinomial Naive Bayes
-- Random Forest
-- MLP Neural Network
-- Frontend
-- HTML
-- CSS
-- JavaScript
-- React
-- Development Tools
-- Visual Studio Code
-- Git
-- GitHub
-- GitHub Desktop
+## Installation and Setup
 
-## Running the ML Pipeline
+### Prerequisites
 
-Clone the repository and navigate to the ML directory:
+Install the following before running the project:
 
-```text
+* Git
+* Python 3
+* Node.js and npm
+* Visual Studio Code (recommended)
+
+Clone the repository:
+
+```bash
+git clone https://github.com/rainzberry/ScamShield.git
+cd ScamShield
+```
+
+### 1. Set Up the Frontend
+
+Open a terminal in the project root:
+
+```bash
+cd scamshield-ai
+npm install
+npm run dev
+```
+
+Use the local URL printed by the development server to open the frontend in your browser.
+
+### 2. Set Up the Backend
+
+Open a separate terminal:
+
+```bash
+cd scamshield-backend
+python -m venv .venv
+```
+
+Activate the virtual environment on Windows:
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+Install the backend dependencies using the requirements file provided in the backend directory:
+
+```bash
+pip install -r requirements.txt
+```
+
+Start the Flask application using the entry-point or startup command configured in the backend.
+
+Keep the backend running while using the frontend. Ensure the frontend API configuration points to the correct backend address and port.
+
+### 3. Set Up the Machine-Learning Environment
+
+If the ML module has its own dependency file, use a separate terminal:
+
+```bash
 cd scamshield-ML
-```
-
-Create and activate a virtual environment:
-
-```text
 python -m venv .venv
 ```
 
 Activate it on Windows:
 
-```text
-.venv\Scripts\activate
+```powershell
+.\.venv\Scripts\Activate.ps1
 ```
-Install the required dependencies:
-```text
+
+Install the dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
 
-The ML pipeline can then be executed in the following order:
+If the ML package requires a separate installation step or model artifacts, follow the instructions in its configuration and module documentation before starting the backend.
 
-```text
-python src/clean_dataset.py
-python src/validate_dataset.py
-python src/split_dataset.py
-python src/feature_extraction.py
-python src/model_training.py
-```
+**Note:** The backend and ML components must use compatible dependencies and model paths. The exact startup commands depend on the entry-point files and configuration in the current checkout.
 
-The original datasets must be obtained separately and placed in the appropriate local dataset directory before running the pipeline.
+---
 
-## Future Development
+## Testing and Validation
 
-ScamShield AI is planned to evolve into a complete email security platform with:
+Testing should cover individual detection modules as well as the integrated application.
 
-- Automated email analysis
-- Real-time phishing detection
-- Backend prediction API
-- Frontend integration
-- Explainable predictions
-- URL and malicious-link analysis
-- Additional scam detection capabilities
-- Model optimization and tuning
-- Robustness testing across different datasets
-- Production-ready deployment
+### Suggested test categories
+
+| Test category          | Example                                                         |
+| ---------------------- | --------------------------------------------------------------- |
+| Email input validation | Empty or malformed email text                                   |
+| Email classification   | Benign-looking text and suspicious messages                     |
+| URL validation         | Invalid or incomplete URL                                       |
+| URL classification     | URLs with suspicious structural characteristics                 |
+| QR decoding            | Valid QR code containing text                                   |
+| QR-to-URL integration  | QR code containing a URL                                        |
+| Invalid image handling | Unsupported or unreadable image                                 |
+| API validation         | Missing fields or unsupported input types                       |
+| Frontend integration   | Verify that submitted inputs produce the expected result format |
+| Error handling         | Ensure failures return understandable messages                  |
+
+### Machine-Learning Evaluation
+
+Model evaluation should use held-out data and appropriate classification metrics:
+
+* Accuracy
+* Precision
+* Recall
+* F1-score
+* Confusion matrix
+
+Recall is particularly important in phishing detection because a false negative occurs when a malicious item is incorrectly classified as benign.
+
+Offline training metrics should be reported separately from end-to-end application testing. High performance on a test dataset does not guarantee equivalent results on new, real-world scams.
+
+Run the project's existing automated tests using the test instructions supplied with the ML module. Do not interpret a successful application launch as proof that every detection module has passed its tests.
+
+---
+
+## Security Considerations
+
+* Treat all user-submitted content as untrusted input.
+* Validate uploaded images and enforce appropriate file-size limits.
+* Do not automatically open, visit, or execute QR-decoded URLs.
+* Avoid storing passwords, personal emails, or other sensitive content unnecessarily.
+* Keep secrets and local configuration out of version control.
+* Review dataset licences and redistribution terms before sharing datasets.
+* Do not commit virtual environments, temporary files, or unnecessarily large generated artifacts.
+* Never rely on a single model prediction as definitive proof that content is safe.
+
+---
+
+## Limitations
+
+* Machine-learning models can produce false positives and false negatives.
+* Previously unseen scams may not resemble the training data.
+* URL characteristics alone cannot establish the reputation or current safety of a website.
+* QR decoding extracts content but does not automatically establish whether that content is malicious.
+* Detection quality depends on dataset quality, preprocessing, model validation, and integration correctness.
+* Live website reputation checks require appropriate external services and are not implied by lexical URL analysis alone.
+
+---
+
+## Future Enhancements
+
+Potential extensions include:
+
+* Improved model tuning and cross-validation.
+* Expanded evaluation against diverse, independent datasets.
+* Additional explainability and feature-level analysis.
+* More comprehensive QR payload handling.
+* Improved API security, logging, and error handling.
+* Browser or email-client integration.
+* Additional integration and regression tests.
+* Deployment with secure configuration and monitoring.
+
+---
 
 ## Disclaimer
 
-ScamShield AI is an academic software engineering and machine learning project intended for research and educational purposes. Model predictions should not be treated as a guaranteed determination of whether an email is malicious or legitimate.
+ScamShield AI is an academic Software Engineering and Machine Learning project intended for educational and research purposes.
+
+Its predictions are estimates, not guarantees. Users should verify suspicious messages and links through trusted channels and should not treat a benign classification as proof of safety.
+
+---
+
+## Author and Repository
+
+**Project:** ScamShield AI
+**Repository:** [github.com/rainzberry/ScamShield](https://github.com/rainzberry/ScamShield)
+
+Developed as a Software Engineering project exploring multi-modal threat detection, machine learning, backend integration, and explainable risk assessment.
