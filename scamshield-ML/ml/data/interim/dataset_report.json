@@ -1,0 +1,148 @@
+{
+  "text": {
+    "curated_files": {
+      "CEAS_08.csv": {
+        "rows_read": 39154,
+        "rows_kept": 39154,
+        "dropped_unmapped_label": 0
+      },
+      "Enron.csv": {
+        "rows_read": 29767,
+        "rows_kept": 29767,
+        "dropped_unmapped_label": 0
+      },
+      "Ling.csv": {
+        "rows_read": 2859,
+        "rows_kept": 2859,
+        "dropped_unmapped_label": 0
+      },
+      "Nazario.csv": {
+        "rows_read": 1565,
+        "rows_kept": 1565,
+        "dropped_unmapped_label": 0
+      },
+      "Nigerian_Fraud.csv": {
+        "rows_read": 3332,
+        "rows_kept": 3332,
+        "dropped_unmapped_label": 0
+      }
+    },
+    "sources": {
+      "CEAS_08": {
+        "n_records": 39154,
+        "label_counts": {
+          "1": 21842,
+          "0": 17312
+        },
+        "origin_counts": {
+          "spam_or_phishing": 21842,
+          "legitimate": 17312
+        },
+        "empty_body": 0
+      },
+      "Enron": {
+        "n_records": 29767,
+        "label_counts": {
+          "0": 15791,
+          "1": 13976
+        },
+        "origin_counts": {
+          "legitimate": 15791,
+          "spam_or_phishing": 13976
+        },
+        "empty_body": 0
+      },
+      "Ling": {
+        "n_records": 2859,
+        "label_counts": {
+          "0": 2401,
+          "1": 458
+        },
+        "origin_counts": {
+          "legitimate": 2401,
+          "spam_or_phishing": 458
+        },
+        "empty_body": 0
+      },
+      "Nazario": {
+        "n_records": 1565,
+        "label_counts": {
+          "1": 1565
+        },
+        "origin_counts": {
+          "phishing": 1565
+        },
+        "empty_body": 2
+      },
+      "Nigerian_Fraud": {
+        "n_records": 3332,
+        "label_counts": {
+          "1": 3332
+        },
+        "origin_counts": {
+          "fraud": 3332
+        },
+        "empty_body": 1
+      },
+      "spamassassin": {
+        "n_records": 6046,
+        "label_counts": {
+          "0": 4150,
+          "1": 1896
+        },
+        "origin_counts": {
+          "ham": 4150,
+          "spam": 1896
+        },
+        "empty_body": 31
+      }
+    },
+    "total_records": 82723,
+    "label_counts": {
+      "1": 43069,
+      "0": 39654
+    },
+    "exact_duplicate_rows": 114,
+    "empty_text_rows": 0,
+    "length_chars": {
+      "count": 82723.0,
+      "mean": 1817.8347980609988,
+      "std": 16871.694895490826,
+      "min": 4.0,
+      "25%": 339.0,
+      "50%": 775.0,
+      "75%": 1958.0,
+      "max": 4599694.0
+    }
+  },
+  "url": {
+    "total_records": 235795,
+    "label_counts_1_is_phishing": {
+      "0": 134850,
+      "1": 100945
+    },
+    "null_urls": 0,
+    "exact_duplicate_urls": 425,
+    "url_length_chars": {
+      "count": 235795.0,
+      "mean": 35.36695434593609,
+      "std": 41.21434633341828,
+      "min": 14.0,
+      "25%": 24.0,
+      "50%": 28.0,
+      "75%": 35.0,
+      "max": 6097.0
+    },
+    "label_semantics": "UCI label (1=legitimate, 0=phishing) was inverted: here 1 = phishing.",
+    "sample_phishing": [
+      "http://www.teramill.com",
+      "http://www.f0519141.xsph.ru",
+      "http://www.shprakserf.gq"
+    ],
+    "sample_legitimate": [
+      "https://www.southbankmosaics.com",
+      "https://www.uni-mainz.de",
+      "https://www.voicefmradio.co.uk"
+    ]
+  }
+}

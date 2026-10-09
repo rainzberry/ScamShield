@@ -1,0 +1,55 @@
+"""Dataset documentation. Record counts are NOT hard-coded: run scripts/inspect_data.py
+which writes data/interim/dataset_report.json with the real counts."""
+
+DATASETS = [
+    {
+        "name": "SpamAssassin Public Corpus",
+        "source": "Apache SpamAssassin project",
+        "url": "https://spamassassin.apache.org/old/publiccorpus/",
+        "license": "Publicly distributed corpus; no explicit license text confirmed - VERIFY before publishing.",
+        "labels": "ham (easy_ham, hard_ham) = 0 ; spam = 1",
+        "auto_download": True,
+        "use_for": "text training + evaluation (Stage 1)",
+        "limitations": "Messages are from 2002-2005 (old spam style); English only; raw headers are NOT used as features.",
+    },
+    {
+        "name": "Curated phishing-email CSVs (CEAS_08, Nazario, Nigerian_Fraud, Enron, Ling)",
+        "source": "Champa et al. (2024), figshare (search: 'Phishing Email Curated Datasets')",
+        "url": "https://figshare.com (manual download)",
+        "license": "See the figshare record page - VERIFY.",
+        "labels": "binary only: 0 = legitimate, 1 = phishing/spam/fraud. Source file gives coarse origin.",
+        "auto_download": False,
+        "use_for": "text training + evaluation (Stage 1)",
+        "limitations": "No genuine SPAM-vs-PHISHING label inside the binary column. SpamAssassin.csv overlaps the raw corpus.",
+    },
+    {
+        "name": "Nazario phishing corpus (mbox)",
+        "source": "Jose Nazario",
+        "url": "https://monkey.org/~jose/phishing/ (manual download)",
+        "license": "Check the site terms - VERIFY.",
+        "labels": "all phishing (1)",
+        "auto_download": False,
+        "use_for": "optional extra positives",
+        "limitations": "Positive-only; era-specific; strongly source-identifiable.",
+    },
+    {
+        "name": "PhiUSIIL Phishing URL Dataset",
+        "source": "UCI ML Repository (id 967); Prasad & Chandra, Computers & Security, 2024",
+        "url": "https://archive.ics.uci.edu/dataset/967/phiusiil+phishing+url+dataset",
+        "license": "CC BY 4.0 (as listed on the UCI page - VERIFY).",
+        "labels": "UCI label: 1 = legitimate, 0 = phishing. The pipeline INVERTS it so 1 = phishing.",
+        "auto_download": True,
+        "use_for": "URL training + evaluation",
+        "limitations": "Only the URL string is used (page-content features are discarded). Legit/phish URLs may differ in dataset-specific ways, so scores can be optimistic.",
+    },
+    {
+        "name": "Tranco top-sites list",
+        "source": "tranco-list.eu",
+        "url": "https://tranco-list.eu/",
+        "license": "Check the terms on the site - VERIFY.",
+        "labels": "no labels (popularity ranking)",
+        "auto_download": True,
+        "use_for": "OPTIONAL benign augmentation (default OFF)",
+        "limitations": "Domain-only rows have no path/query, which biases lexical features. Off by default.",
+    },
+]

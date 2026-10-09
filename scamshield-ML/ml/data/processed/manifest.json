@@ -1,0 +1,94 @@
+{
+  "text": {
+    "loaded": 82723,
+    "removed_too_short": 9,
+    "removed_label_conflicts": 0,
+    "removed_exact_duplicates": 5343,
+    "kept": 77371,
+    "seed": 42,
+    "train": {
+      "n": 54159,
+      "label_counts": {
+        "0": 27454,
+        "1": 26705
+      },
+      "by_source": {
+        "CEAS_08": 24074,
+        "Enron": 20592,
+        "spamassassin": 4122,
+        "Nigerian_Fraud": 2287,
+        "Ling": 2001,
+        "Nazario": 1083
+      }
+    },
+    "val": {
+      "n": 11606,
+      "label_counts": {
+        "0": 5882,
+        "1": 5724
+      },
+      "by_source": {
+        "CEAS_08": 5159,
+        "Enron": 4412,
+        "spamassassin": 883,
+        "Nigerian_Fraud": 491,
+        "Ling": 429,
+        "Nazario": 232
+      }
+    },
+    "test": {
+      "n": 11606,
+      "label_counts": {
+        "0": 5883,
+        "1": 5723
+      },
+      "by_source": {
+        "CEAS_08": 5159,
+        "Enron": 4413,
+        "spamassassin": 883,
+        "Nigerian_Fraud": 490,
+        "Ling": 429,
+        "Nazario": 232
+      }
+    }
+  },
+  "url": {
+    "loaded": 235795,
+    "removed_unparseable": 4,
+    "removed_label_conflicts": 0,
+    "removed_exact_duplicates": 425,
+    "kept": 235366,
+    "seed": 42,
+    "split": "grouped by registered domain (no domain appears in two splits)",
+    "train": {
+      "n": 164570,
+      "label_counts": {
+        "0": 94396,
+        "1": 70174
+      },
+      "by_source": {
+        "phiusiil": 164570
+      }
+    },
+    "val": {
+      "n": 35112,
+      "label_counts": {
+        "0": 20234,
+        "1": 14878
+      },
+      "by_source": {
+        "phiusiil": 35112
+      }
+    },
+    "test": {
+      "n": 35684,
+      "label_counts": {
+        "0": 20220,
+        "1": 15464
+      },
+      "by_source": {
+        "phiusiil": 35684
+      }
+    }
+  }
+}
